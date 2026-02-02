@@ -1,54 +1,57 @@
-//Place your needed include statements here (This is roughly the equivelent of libraries in python)
+// Place your needed include statements here
 #include <stdio.h>
 #include <stdlib.h>
 
-int main(int argc, char* argv[]){
-  //Place your solution code here
+int main(int argc, char* argv[]) {
+    (void)argc;
+    (void)argv;
 
-  size_t n = 0;
+    int n = 0;
 
-  printf("Enter number of elements: ");
-  if (scanf("%zu", &n) != 1) {
-    fprintf(stderr, "Invalid input for number of elements.\n");
-    return 1;
-  }
-
-  // Edge case: 0 elements
-  if (n == 0) {
-    printf("No elements to store. Nothing to print.\n");
-    return 0;
-  }
-
-  // Allocate memory for n integers
-  int *arr = malloc(n * sizeof(int));
-  if (arr == NULL) {
-    fprintf(stderr, "Memory allocation failed.\n");
-    return 1;
-  }
-
-  // Read integers
-  for (size_t i = 0; i < n; i++) {
-    printf("Enter integer %zu: ", i + 1);
-    if (scanf("%d", &arr[i]) != 1) {
-      fprintf(stderr, "Invalid integer input.\n");
-      free(arr);   // avoid memory leak if something goes wrong
-      arr = NULL;
-      return 1;
+    printf("Enter number of elements: ");
+    if (scanf("%d", &n) != 1) {
+        fprintf(stderr, "Invalid input for number of elements.\n");
+        return 1;
     }
-  }
 
-  // Print in reverse order
-  printf("Integers in reverse order:\n");
-  for (size_t i = n; i-- > 0; ) {
-    printf("%d", arr[i]);
-    if (i != 0) printf(" ");
-  }
-  printf("\n");
+    if (n < 0) {
+        fprintf(stderr, "Number of elements cannot be negative.\n");
+        return 1;
+    }
 
-  // Free memory
-  free(arr);
-  arr = NULL;
+    if (n == 0) {
+        printf("No elements to store. Nothing to print.\n");
+        return 0;
+    }
 
-  return 0;
+    // Allocate memory
+    int *arr = malloc((size_t)n * sizeof(int));
+    if (arr == NULL) {
+        fprintf(stderr, "Memory allocation failed.\n");
+        return 1;
+    }
+
+    // Read integers
+    for (int i = 0; i < n; i++) {
+        printf("Enter integer %d: ", i + 1);
+        if (scanf("%d", &arr[i]) != 1) {
+            fprintf(stderr, "Invalid integer input.\n");
+            free(arr);
+            return 1;
+        }
+    }
+
+    // Print in reverse
+    printf("Integers in reverse order:\n");
+    for (int i = n - 1; i >= 0; i--) {
+        printf("%d", arr[i]);
+        if (i != 0) printf(" ");
+    }
+    printf("\n");
+
+    // Free memory
+    free(arr);
+
+    return 0;
 }
 
